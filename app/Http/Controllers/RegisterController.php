@@ -14,8 +14,11 @@ class RegisterController extends Controller
     public function register(Request $request){
 
         $validator = $this->validator($request->all());
+        
         if($validator->fails()){
-            throw new StoreResourceFailedException("Validation Error", $validator->errors());
+            $this->throwValidationException(
+                    $request , $validator
+                    );
         }
     }
     
