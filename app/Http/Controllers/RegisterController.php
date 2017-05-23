@@ -1,11 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
+
 
 class RegisterController extends Controller
 {
+    use RegistersUsers;
+    
+     protected $redirectTo = '/home';
+    
     public function __construct()
     {
         $this->middleware('guest');
@@ -16,17 +24,20 @@ class RegisterController extends Controller
         $validator = $this->validator($request->all());
         
         if($validator->fails()){
+            
             $this->throwValidationException(
                     $request , $validator
                     );
         }
+        
+        $this->auth->login($this->register->create($request->all()));
     }
     
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'firstname' => 'required|max:20',
-            'lastname' => 'required|max:20',
+            'firstname' => 'required|max:255',
+            'lastname' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);

@@ -17,10 +17,12 @@ Route::delete('/users/{user}',['uses' => 'UsersController@delete', 'as' => 'user
 */
 Route::get('/login', ['uses' => 'LoginController@showLogin', 'as' => 'login']);
 
-Route::post('/login', ['uses' => 'LoginController@showLogin', 'as' => 'login']);
+Route::post('/login', ['uses' => 'LoginController@Login', 'as' => 'login1']);
 
 Route::post('/logout', ['uses' => 'LoginController@logout', 'as' => 'logout']);
+
 
 Route::get('/home',function(){
     return view('home');
 });
+

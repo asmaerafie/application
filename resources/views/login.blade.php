@@ -12,8 +12,8 @@
                     <div style="padding-top:30px" class="panel-body" >
 
                         <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-                            
-                        <form id="loginform" class="form-horizontal" role="form" method="post" action="{{ url('/app') }}">
+                          <!-- action kant fiha app -->  
+                        <form id="loginform" class="form-horizontal" role="form" method="post" action="{{ url('/login') }}"> 
                              
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                             
@@ -59,7 +59,6 @@
                                     </div>
                                 </div>    
                             </form>     
-
 
 
                         </div>                     
@@ -128,6 +127,5 @@
                     </div>
       
          </div> 
-    
-
+ 
 @stop
