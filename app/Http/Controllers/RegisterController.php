@@ -1,64 +1,57 @@
 <?php
 
 namespace App\Http\Controllers;
-namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
-
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreUser;
+use App\Models\User;
 
 class RegisterController extends Controller
 {
-    use RegistersUsers;
-    
-     protected $redirectTo = '/home';
-    
-    public function __construct()
+      public function showRegister()
     {
-        $this->middleware('guest');
+        return view('register');
     }
-    
-    public function register(Request $request){
-
-        $validator = $this->validator($request->all());
+     
+     public function register(Request $request) {
+         
+        $data = Input::except(array('token')) ;
+         
+        $rules=array(
+            'first_name' => 'required|min:2|max:255',
+            'last_name' => 'required|min:2|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|min:3|confirmed',
+        );
+         
+        $validator = Validator::make($data , $rules  );
         
-        if($validator->fails()){
-            
-            $this->throwValidationException(
-                    $request , $validator
-                    );
-        }
-        
-        $this->auth->login($this->register->create($request->all()));
-    }
-    
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'firstname' => 'required|max:255',
-            'lastname' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-        ]);
-    }
-   
-    protected function create(array $data) {
+         if ($validator->fails()){
+             return redirect()->route('register')->withErrors($validator);
+             
+         }
+         else
+          
+            $this->create($request);
+           
+            return redirect()->route('login')->with('message', 'login!');
+          
+     }
+         
+     protected function create(Request $request) {
 
-        return User::create([
- 
-            'fisrtname' => $data['firstname'],
-            
-            'lastname' => $data['lastname'],
-            
-            'email' => $data['email'],
-
-            'password' => bcrypt($data['password']),
+           $user = User::query()->create([
+               'first_name' => $request->get('first_name'),
+               'last_name' => $request->get('last_name'),
+               'email' => $request->get('email'),
+               'password' => bcrypt($request->get('password')),
 
         ]);
-
+         
+        // return redirect()->route('login')->with('messages', ['welcome']);
     }
-
+         
 }
-
-

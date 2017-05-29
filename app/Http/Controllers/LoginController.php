@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
     
     public function __construct() {
-        $this->middleware('guest');
+       // $this->middleware('guest');
+       // $this->middleware('auth');
     }
     
     public function showLogin()
@@ -21,15 +23,17 @@ class LoginController extends Controller
         if (Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')])) {
             return redirect()->route('home');
         } else {
+            
             return redirect()->back()->withErrors(['Login error!']);
+           
         }
     }
    
-    
     public function logout()
     {
+
         Auth::logout();
         
-        return redirect()->route('login');
+        return redirect()->route('login')->with('message', 'Your are now logged out!');
     }
 }

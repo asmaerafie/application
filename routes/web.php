@@ -15,14 +15,14 @@ Route::put('/users/{user}',['uses' => 'UsersController@update', 'as' => 'users.u
 // method delete
 Route::delete('/users/{user}',['uses' => 'UsersController@delete', 'as' => 'users.delete']);
 */
-Route::get('/login', ['uses' => 'LoginController@showLogin', 'as' => 'login']);
 
-Route::post('/login', ['uses' => 'LoginController@Login', 'as' => 'login1']);
-
-Route::post('/logout', ['uses' => 'LoginController@logout', 'as' => 'logout']);
-
+Route::get('/login', ['uses' => 'LoginController@showlogin', 'as' => 'login'])->middleware('guest');
+Route::post('/login', ['uses' => 'LoginController@login', 'as' => 'login.store'])->middleware('guest');
+Route::post('/logout', ['uses' => 'LoginController@logout', 'as' => 'logout'])->middleware('auth');
+                              
+Route::get('/register', ['uses' => 'RegisterController@showRegister', 'as' => 'register']);
+Route::post('/register', ['uses' => 'RegisterController@register', 'as' => 'register.register']);
 
 Route::get('/home',function(){
     return view('home');
-});
-
+})->middleware('auth');

@@ -1,8 +1,14 @@
-<!DOCTYPE html>
-<html>
-<body>
+@extends('layouts.master')
 
-    <p><h3>Home page</h3></p>
+@section('content')
 
-</body>
-</html>
+<nav class="nav navbar-nav navbar-right">
+  <form class="form-inline" method="post" action="{{ route('logout') }}">
+
+      {{ csrf_field() }}
+      
+    <button class="btn btn-success" type="submit"> logout</button>
+  </form>
+</nav>
+
+@stop
