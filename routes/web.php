@@ -23,6 +23,4 @@ Route::post('/logout', ['uses' => 'LoginController@logout', 'as' => 'logout'])->
 Route::get('/register', ['uses' => 'RegisterController@showRegister', 'as' => 'register']);
 Route::post('/register', ['uses' => 'RegisterController@register', 'as' => 'register.register']);
 
-Route::get('/home',function(){
-    return view('home');
-})->middleware('auth');
+Route::get('home',function(){return view ('home');})->name('home')->middleware('auth');

@@ -20,8 +20,13 @@ class LoginController extends Controller
     
     public function login(Request $request)
     {
-        if (Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')])) {
-            return redirect()->route('home');
+        if (Auth::attempt([
+            'email' => $request->get('email'),
+            'password' => $request->get('password')
+                ])) 
+        {
+            
+            return redirect()->route('home')->with('message', 'Your are now logged in!');
         } else {
             
             return redirect()->back()->withErrors(['Login error!']);
